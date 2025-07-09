@@ -65,7 +65,7 @@
  -->
 
 
-
+<!-- 
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -104,3 +104,116 @@
 </body>
 </html>
 
+ -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>🚌 BusPe - Kerala QR Generator</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #fff8e1;
+      color: #2e2e2e;
+      max-width: 600px;
+      margin: 50px auto;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      border: 2px solid #e0c97f;
+    }
+
+    h2 {
+      text-align: center;
+      color: #006400;
+    }
+
+    input, button {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #ff9900;
+    }
+
+    button {
+      background-color: #228B22;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #1b6b1b;
+    }
+
+    #qr {
+      margin-top: 20px;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    #paymentLink {
+      display: block;
+      text-align: center;
+      margin-top: 10px;
+      color: #0066cc;
+      word-wrap: break-word;
+    }
+
+    .footer {
+      margin-top: 30px;
+      text-align: center;
+      font-size: 14px;
+      color: #666;
+    }
+  </style>
+
+  <script>
+    function generateStaticQR() {
+      const upi = document.getElementById("upi").value.trim();
+      const bus = document.getElementById("bus").value.trim();
+
+      if (!upi || !bus) {
+        alert("Please fill in both UPI ID and Bus Number.");
+        return;
+      }
+
+      const paymentURL = `https://buspe.onrender.com/pay.html?upi=${encodeURIComponent(upi)}&bus=${encodeURIComponent(bus)}`;
+      const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(paymentURL)}`;
+
+      document.getElementById("qr").src = qrUrl;
+      document.getElementById("paymentLink").href = paymentURL;
+      document.getElementById("paymentLink").innerText = paymentURL;
+    }
+  </script>
+</head>
+<body>
+  <h2> BusPe  QR Generator</h2>
+
+  <label for="upi">Enter Your UPI ID:</label>
+  <input type="text" id="upi" placeholder="e.g. 7736334586@amazonpay" />
+
+  <label for="bus">Enter Your Bus Number:</label>
+  <input type="text" id="bus" placeholder="e.g. KL07AB1234" />
+
+  <button onclick="generateStaticQR()">Generate Bus QR Code</button>
+
+  <img id="qr" src="" alt="QR Code will appear here" />
+  <a id="paymentLink" target="_blank"></a>
+
+  <div class="footer">
+    Made in Kerala · BusPe 2025
+  </div>
+</body>
+</html>
