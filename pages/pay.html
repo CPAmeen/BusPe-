@@ -28,23 +28,30 @@
       });
     }
 
-    function generateLink() {
-      const amount = document.getElementById("amount").value;
-      if (!amount || amount <= 0) {
-        alert("Please enter a valid amount.");
-        return;
-      }
+function generateLink() {
+  const amount = document.getElementById("amount").value;
+  if (!amount || amount <= 0) {
+    alert("Please enter a valid amount.");
+    return;
+  }
 
-      const upiLink = `upi://pay?pa=${upi}&pn=Bus ${bus}&am=${amount}&cu=INR`;
+  const upiLink = `upi://pay?pa=${upi}&pn=Bus ${bus}&am=${amount}&cu=INR`;
 
-      document.getElementById("payment").style.display = "block";
-      document.getElementById("upiInfo").innerText = `Click below to pay ₹${amount} to ${upi}`;
-      document.getElementById("payBtn").href = upiLink;
+  document.getElementById("payment").style.display = "block";
+  document.getElementById("upiInfo").innerText = `Click below to pay ₹${amount} to ${upi}`;
+  document.getElementById("payBtn").href = upiLink;
 
-      // Show QR as fallback
-      document.getElementById("qr").src =
-        `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(upiLink)}`;
-    }
+  // Show QR as fallback
+  document.getElementById("qr").src =
+    `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(upiLink)}`;
+
+  // ⏱️ After 5 seconds, redirect to success.html with query params
+  setTimeout(() => {
+    const successUrl = `/pages/success.html?upi=${encodeURIComponent(upi)}&bus=${encodeURIComponent(bus)}&amount=${encodeURIComponent(amount)}`;
+    window.location.href = successUrl;
+  }, 5000); // ⏱️ Wait 5 seconds to give the user time to complete payment
+}
+
   </script>
 </head>
 <body>
