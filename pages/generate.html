@@ -81,7 +81,7 @@
         return;
       }
 
-      const paymentURL = `https://buspe-payment-page.onrender.com/pay.html?upi=${encodeURIComponent(upi)}&bus=${encodeURIComponent(bus)}`;
+      const paymentURL = `https://buspe.onrender.com/pay.html?upi=${encodeURIComponent(upi)}&bus=${encodeURIComponent(bus)}`;
 
       const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(paymentURL)}`;
 
