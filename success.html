@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>BusPe - Payment Success</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 30px;
+    }
+    .box {
+      border: 2px solid green;
+      padding: 20px;
+      border-radius: 10px;
+      display: inline-block;
+      margin-top: 30px;
+    }
+    .highlight {
+      font-size: 24px;
+      color: green;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h2>✅ Payment Successful</h2>
+  <div class="box">
+    <p>Bus Number: <span id="busNumber" class="highlight"></span></p>
+    <p>Amount Paid: ₹<span id="amount" class="highlight"></span></p>
+    <p>Time: <span id="timestamp" class="highlight"></span></p>
+    <p>Please show this screen to the conductor.</p>
+  </div>
+
+  <script>
+    const amount = localStorage.getItem("lastAmount");
+    const busNumber = localStorage.getItem("busNumber");
+    const upiId = localStorage.getItem("upiId");
+    const paidAt = new Date().toISOString();
+
+    document.getElementById("amount").innerText = amount;
+    document.getElementById("busNumber").innerText = busNumber;
+    document.getElementById("timestamp").innerText = new Date().toLocaleString();
+
+    // Log transaction to backend
+    fetch("http://localhost:8300/api/transactions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        fare_amount: parseFloat(amount),
+        bus_number: busNumber,
+        upi_id: upiId,
+        paid_at: paidAt
+      })
+    })
+    .then(res => res.json())
+    .then(data => console.log("Logged:", data))
+    .catch(err => console.error("Logging failed:", err));
+  </script>
+</body>
+</html>
