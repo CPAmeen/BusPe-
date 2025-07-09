@@ -47,7 +47,7 @@ function generateLink() {
 
   // ⏱️ After 5 seconds, redirect to success.html with query params
   setTimeout(() => {
-    const successUrl = `/pages/success.html?upi=${encodeURIComponent(upi)}&bus=${encodeURIComponent(bus)}&amount=${encodeURIComponent(amount)}`;
+    const successUrl = `/success.html?upi=${encodeURIComponent(upi)}&bus=${encodeURIComponent(bus)}&amount=${encodeURIComponent(amount)}`;
     window.location.href = successUrl;
   }, 5000); // ⏱️ Wait 5 seconds to give the user time to complete payment
 }
