@@ -37,7 +37,7 @@
       }
 
       // Construct BusPe payment page URL
-      const paymentURL = `https://buspe-payment-page.onrender.com/pay.html?upi=${encodeURIComponent(upi)}&bus=${encodeURIComponent(bus)}`;
+      const paymentURL = `https://buspe.onrender.com/pay.html?upi=${encodeURIComponent(upi)}&bus=${encodeURIComponent(bus)}`;
 
       // Generate QR code with that URL
       const qrURL = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(paymentURL)}`;
