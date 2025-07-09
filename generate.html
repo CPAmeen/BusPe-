@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Generate Bus QR</title>
+  <style>
+    body {
+      font-family: Arial;
+      margin: 50px;
+    }
+    input, button {
+      padding: 8px;
+      margin: 10px 0;
+      width: 300px;
+    }
+    #qr {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h2>Bus QR Code Generator</h2>
+
+  <form id="qrForm">
+    <input type="text" id="upi" placeholder="Enter your UPI ID" required><br>
+    <input type="text" id="bus" placeholder="Enter Bus Number" required><br>
+    <button type="submit">Generate QR Code</button>
+  </form>
+
+  <div id="qr">
+    <h3>QR Code:</h3>
+    <img id="qrImage" src="" style="display:none;" alt="QR Code">
+    <br><a id="download" href="#" download style="display:none;">Download QR</a>
+  </div>
+
+  <script>
+    document.getElementById("qrForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const upi = document.getElementById("upi").value;
+      const bus = document.getElementById("bus").value;
+
+      const res = await fetch("/generate-qr", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ upi, bus })
+      });
+
+      const data = await res.json();
+      if (data.qr_url) {
+        const qrImage = document.getElementById("qrImage");
+        qrImage.src = data.qr_url;
+        qrImage.style.display = "block";
+
+        const download = document.getElementById("download");
+        download.href = data.qr_url;
+        download.style.display = "inline";
+      } else {
+        alert("Failed to generate QR.");
+      }
+    });
+  </script>
+</body>
+</html>
