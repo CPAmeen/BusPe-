@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -60,5 +60,44 @@
       }
     });
   </script>
+</body>
+</html>
+ -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Generate QR Code - Bus Owner</title>
+  <script>
+    function generateStaticQR() {
+      const upi = document.getElementById("upi").value.trim();
+      const bus = document.getElementById("bus").value.trim();
+
+      if (!upi || !bus) {
+        alert("Please fill in both UPI ID and Bus Number.");
+        return;
+      }
+
+      const paymentURL = `https://buspe-payment-page.onrender.com/pay.html?upi=${encodeURIComponent(upi)}&bus=${encodeURIComponent(bus)}`;
+
+      const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(paymentURL)}`;
+
+      document.getElementById("qr").src = qrUrl;
+      document.getElementById("paymentLink").href = paymentURL;
+      document.getElementById("paymentLink").innerText = paymentURL;
+    }
+  </script>
+</head>
+<body>
+  <h2>🚌 BusPe QR Generator</h2>
+  <input type="text" id="upi" placeholder="Enter your UPI ID (e.g. owner@bank)" />
+  <input type="text" id="bus" placeholder="Enter Bus Number (e.g. KL07AX1234)" />
+  <button onclick="generateStaticQR()">Generate QR</button>
+
+  <div style="margin-top: 20px;">
+    <img id="qr" src="" alt="QR Code will appear here" />
+    <p><a id="paymentLink" target="_blank"></a></p>
+  </div>
 </body>
 </html>
