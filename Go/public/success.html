@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>BusPe Payment Success</title>
+  <script>
+    async function logTransaction() {
+      const params = new URLSearchParams(window.location.search);
+      const upi = params.get("upi");
+      const busNumber = params.get("bus");
+      const amount = params.get("am");
+
+      if (!upi || !busNumber || !amount) {
+        document.body.innerHTML = "<h2>❌ Invalid payment URL</h2>";
+        return;
+      }
+
+      const payload = {
+        upi_id: upi,
+        bus_number: busNumber,
+        fare_amount: parseFloat(amount),
+        paid_at: new Date().toISOString()
+      };
+
+      const res = await fetch("/log-transaction", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+
+      const data = await res.json();
+
+      if (data.status === "success") {
+        document.getElementById("logResult").innerText = "✅ Transaction Logged";
+      } else {
+        document.getElementById("logResult").innerText = "❌ Failed to Log Transaction";
+      }
+
+      document.getElementById("details").innerHTML = `
+        <h2>✅ Payment Success</h2>
+        <p>Fare Paid: ₹${amount}</p>
+        <p>Bus No: ${busNumber}</p>
+        <p>Receiver: ${upi}</p>
+        <p><b>${new Date().toLocaleString()}</b></p>
+      `;
+    }
+
+    window.onload = logTransaction;
+  </script>
+</head>
+<body>
+  <div id="logResult">⏳ Logging Transaction...</div>
+  <div id="details"></div>
+</body>
+</html>

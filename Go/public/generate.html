@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Generate QR Code</title>
+</head>
+<body>
+  <h2>Generate Bus QR Code</h2>
+  <form method="POST" action="/generate-qr">
+    <label for="upi">UPI ID:</label>
+    <input type="text" name="upi" required><br><br>
+
+    <label for="bus_number">Bus Number:</label>
+    <input type="text" name="bus_number" required><br><br>
+
+    <button type="submit">Generate QR</button>
+  </form>
+</body>
+</html>
